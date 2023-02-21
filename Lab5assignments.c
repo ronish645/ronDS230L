@@ -1,8 +1,59 @@
 //Q.No.1
+#include <stdio.h>
 
+#define MAX_DISHES 100
 
+int main() {
+    int num_dishes;
+    int original_count[MAX_DISHES];
+    int new_count[MAX_DISHES];
+    int labels[MAX_DISHES];
+    int i, j, k, l;
 
+    // Read in the number of dishes
+    printf("Enter total number of Petri dishes: ");
+    scanf("%d", &num_dishes);
 
+    // Read in data for each dish
+    printf("Enter Petri dish label, original bacterial number, new bacterial number after one hour reproduction:\n");
+    for (i = 0; i < num_dishes; i++) {
+        scanf("%d %d %d", &labels[i], &original_count[i], &new_count[i]);
+    }
+
+    // Determine the sub-species for each dish
+    int subspecies[MAX_DISHES];
+    double pr, max_pr_A = 0.0, max_pr_B = 0.0;
+    for (i = 0; i < num_dishes; i++) {
+        pr = (double)new_count[i] / (double)original_count[i];
+        if (pr - max_pr_A > max_pr_B) {
+            subspecies[i] = 1;
+            max_pr_A = pr;
+        } else {
+            subspecies[i] = 2;
+            max_pr_B = pr;
+        }
+    }
+
+    // Print the results
+    printf("Running results:\n");
+    printf("%d in A sub-species and Petri dish labels from smaller PR to bigger PR are ", subspecies[0]);
+    for (i = 0; i < num_dishes; i++) {
+        if (subspecies[i] == 1) {
+            printf("%d ", labels[i]);
+        }
+    }
+    printf("\n");
+
+    printf("%d in B sub-species and Petri dish labels from smaller PR to bigger PR are ", subspecies[0] == 1 ? 2 : 1);
+    for (i = 0; i < num_dishes; i++) {
+        if (subspecies[i] == 2) {
+            printf("%d ", labels[i]);
+        }
+    }
+    printf("\n");
+
+    return 0;
+}
 
 
 
